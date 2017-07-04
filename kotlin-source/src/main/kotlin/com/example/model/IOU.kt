@@ -12,4 +12,4 @@ import net.corda.core.serialization.CordaSerializable
  * @param value the IOU's value.
  */
 @CordaSerializable
-data class IOU(val value: Int)
+data class IOU(val value: Int, val status: String = "Draft")

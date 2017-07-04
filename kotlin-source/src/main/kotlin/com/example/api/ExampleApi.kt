@@ -1,9 +1,11 @@
 package com.example.api
 
 import com.example.flow.ExampleFlow.Initiator
+import com.example.flow.ReceiveFlow
 import com.example.state.IOUState
 import net.corda.client.rpc.notUsed
 import net.corda.core.contracts.StateAndRef
+import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.getOrThrow
 import net.corda.core.messaging.CordaRPCOps
 import net.corda.core.messaging.startTrackedFlow
@@ -81,6 +83,37 @@ class ExampleApi(val services: CordaRPCOps) {
         var msg: String
         try {
             val flowHandle = services.startTrackedFlow(::Initiator, iouValue, otherParty)
+            flowHandle.progress.subscribe { println(">> $it") }
+
+            // The line below blocks and waits for the future to resolve.
+            val result = flowHandle
+                    .returnValue
+                    .getOrThrow()
+
+            status = Response.Status.CREATED
+            msg = "Transaction id ${result.id} committed to ledger."
+
+        } catch (ex: Throwable) {
+            status = Response.Status.BAD_REQUEST
+            msg = ex.message!!
+            logger.error(msg, ex)
+        }
+
+        return Response.status(status).entity(msg).build()
+    }
+
+    @GET
+    @Path("receive/{stateId}")
+    fun receiveIOU(@PathParam("stateId") stateId: String): Response {
+
+        val otherParty = services.partyFromX500Name(X500Name("CN=NodeA,O=NodeA,L=London,C=UK")) ?:
+                return Response.status(Response.Status.BAD_REQUEST).build()
+
+        var status: Response.Status
+        var msg: String
+        try {
+            val linearId = UniqueIdentifier.fromString(stateId)
+            val flowHandle = services.startTrackedFlow(ReceiveFlow::Initiator, linearId, otherParty)
             flowHandle.progress.subscribe { println(">> $it") }
 
             // The line below blocks and waits for the future to resolve.
