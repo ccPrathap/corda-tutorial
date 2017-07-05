@@ -1,5 +1,6 @@
 package com.example.api
 
+import com.example.flow.ExampleFlow
 import com.example.flow.ExampleFlow.Initiator
 import com.example.flow.ReceiveFlow
 import com.example.state.IOUState
@@ -82,7 +83,7 @@ class ExampleApi(val services: CordaRPCOps) {
         var status: Response.Status
         var msg: String
         try {
-            val flowHandle = services.startTrackedFlow(::Initiator, iouValue, otherParty)
+            val flowHandle = services.startTrackedFlow(ExampleFlow::Initiator, iouValue, otherParty)
             flowHandle.progress.subscribe { println(">> $it") }
 
             // The line below blocks and waits for the future to resolve.
@@ -104,9 +105,8 @@ class ExampleApi(val services: CordaRPCOps) {
 
     @GET
     @Path("receive/{stateId}")
-    fun receiveIOU(@PathParam("stateId") stateId: String): Response {
-
-        val otherParty = services.partyFromX500Name(X500Name("CN=NodeA,O=NodeA,L=London,C=UK")) ?:
+    fun receiveIOU(@PathParam("stateId") stateId: String,  @QueryParam(value = "party") party: String): Response {
+        val otherParty = services.partyFromName(party) ?:
                 return Response.status(Response.Status.BAD_REQUEST).build()
 
         var status: Response.Status
