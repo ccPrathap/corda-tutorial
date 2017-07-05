@@ -1,3 +1,21 @@
+
+# Corda-App with State Updates
+
+### Create an IOU between nodes
+NodeA - http://localhost:10007/web/example  
+NodeB - http://localhost:10010/web/example  
+NodeC - http://localhost:10013/web/example    
+
+IOU will be in 'Draft' status initially.
+#### To mark it as 'Received' hit the below url from recipient(Node) end.  
+
+Api: {Recipient Node host}/api/example/receive/{stateId}?party={Name}    
+
+Example:  
+http://localhost:10010/api/example/receive/0f3a56e0-488a-45b9-80a2-2471010bda65?party=CN=NodeA,O=NodeA,L=London,C=UK
+
+-----------------------------------------------------
+
 ![Corda](https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png)
 
 # Example CorDapp
