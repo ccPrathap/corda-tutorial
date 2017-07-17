@@ -1,4 +1,6 @@
 
+[![CircleCI](https://circleci.com/gh/ccPrathap/corda-tutorial.svg?style=svg)](https://circleci.com/gh/ccPrathap/corda-tutorial)
+
 # Corda-App with State Updates
 
 ### Create an IOU between nodes
