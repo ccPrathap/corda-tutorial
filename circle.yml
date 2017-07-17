@@ -11,7 +11,8 @@ dependencies:
 test:
   override:
     - chmod +x gradlew
-    - ./gradlew cleanTest test
+    - ./gradlew cleanTest test:
+        parallel: true
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
