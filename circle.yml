@@ -1,0 +1,18 @@
+machine:
+  environment:
+    TERM: dumb
+  java:
+    version: oraclejdk8
+dependencies:
+  override:
+    - chmod +x gradlew
+  cache_directories:
+    - ~/.gradle
+test:
+  override:
+    - chmod +x gradlew
+    - ./gradlew cleanTest test:
+        parallel: true
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
