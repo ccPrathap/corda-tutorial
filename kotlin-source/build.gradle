@@ -28,6 +28,12 @@ sourceSets {
     }
 }
 
+test {
+    if (project.hasProperty('excludeApiTests')) {
+        exclude 'com/example/api/**'
+    }
+}
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
