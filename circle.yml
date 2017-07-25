@@ -1,7 +1,7 @@
 machine:
   environment:
     TERM: dumb
-    _JAVA_OPTIONS: "-Xms512m -Xmx4096m"
+    _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
   java:
     version: oraclejdk8
 dependencies:
@@ -11,7 +11,7 @@ test:
   override:
     - chmod +x gradlew
     - ./gradlew clean assemble
-    - ./gradlew test --parallel:
+    - ./gradlew test -PexcludeApiTests --parallel:
         parallel: true
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
