@@ -10,7 +10,8 @@ dependencies:
 test:
   override:
     - chmod +x gradlew
-    - ./gradlew cleanTest test --parallel:
+    - ./gradlew clean assemble
+    - ./gradlew test --parallel:
         parallel: true
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
