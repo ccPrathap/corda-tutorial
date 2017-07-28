@@ -57,9 +57,6 @@ class IOUApiTests : IntegrationTestCategory {
 
             Assert.assertEquals(getTransactions(nodeAApi).size, 0)
             Assert.assertEquals(getTransactions(nodeBApi).size, 0)
-//            Assert.assertTrue(proposeTransaction(nodeAApi, nodeB.nodeInfo.legalIdentity.name))
-//            Assert.assertEquals(getTransactions(nodeAApi).size, 1)
-//            Assert.assertEquals(getTransactions(nodeBApi).size, 1)
         }
     }
 
@@ -80,18 +77,4 @@ class IOUApiTests : IntegrationTestCategory {
         val transactions = nodeApi.getJson<Array<*>>("ious")
         return transactions
     }
-
-//    private fun proposeTransaction(nodeApi: HttpApi,
-//                                   buyerName: X500Name): Boolean {
-//        println("Proposing transaction from ${nodeApi.root} to $buyerName")
-//        val jsonData = JSONObject(
-//                mapOf("contractId" to 10,
-//                        "deliveryDate" to "2017-10-31T18:00:00.000Z",
-//                        "amount" to 100,
-//                        "purchaseOrderNumber" to 123456,
-//                        "sellerId" to 1234,
-//                        "buyerId" to 4567))
-//        val transaction = nodeApi.putJson("propose?partyName=$buyerName", jsonData)
-//        return transaction
-//    }
 }
